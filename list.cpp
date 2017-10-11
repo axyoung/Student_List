@@ -8,7 +8,7 @@
 /* Ok so the basic idea is that that there is a vector that will store stuct pointers
  * when you add a student to the list, you will push back and add one to the vector
  * these struct pointers will be accessed when you print out the list using a for loop and vector.at(index)
- * then empty the pointer then erase the pointer in the vector to delete
+ * then erase the vector at a position to delete
  * To quit just return, otherwise repeat a loop
  * check out programminghelporg tutorials
  */
@@ -16,69 +16,89 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <iomanip>
 
 using namespace std;
 
-// still getting errors for functions
-void add(vector<int>&, struct Student *bob);
-void print(const vector<int>&, struct Student *bob);
-void erase(struct Student *bob);
-
-// vector pointers and push_back
 struct Student {
-	char first[10];
-	char last[10];
+	char first[21];
+	char last[21];
 	int id;
 	float gpa;
 };
 
+void add(vector<Student>&);
+void print(const vector<Student>&);
+void erase(vector<Student>&);
+
 int main() {
-	int cont = 0;
-	struct Student bob;
-	vector<int> myVector;
+	bool cont = true;
+	vector<Student> myVector;
 
-	while (cont = 0) {
+	while (cont) {
 		cout << "Student List, you can (ADD, PRINT, DELETE, or QUIT)" << endl;
-		if (cin >> "ADD") { 
-			add(bob);
+		char entry[10] = "";
+		cin.get(entry, sizeof(entry));
+		cin.get();
+
+		if (strcmp(entry, "ADD") == 0) { 
+			add(myVector);
 		}
 
-		else if (cin >> "PRINT") { 
-			print(bob);
+		else if (strcmp(entry, "PRINT") == 0) { 
+			print(myVector);
 		}
 
-		else if (cin >> "DELETE") { 
-			erase(bob);
+		else if (strcmp(entry, "DELETE") == 0) { 
+			erase(myVector);
 		}
 
-		else if (cin >> "QUIT") { 
-			cont == 1;
+		else if (strcmp(entry, "QUIT") == 0) { 
+			cont = false;
 		}
 
 	}
+
 	return 0;
 }
 
 // function to add an entry for a student
-void add(vector<int>&, struct Student *bob) {
-	cout << "Student First Name: ";
-	cin >> bob.first;
-	cout << "Student Last Name: ";
-	cin >> bob.last;
-	cout << "Student ID: ";
-	cin >> bob.id;
-	cout << "Student GPA: ";
-	cin >> bob.gpa;
+void add(vector<Student>& myVector) {
+	// empty local variable for student struct
+	Student s = { 0 };
 
+	cout << "Student First Name: ";
+	cin.get(s.first, sizeof(s.first));
+	cin.get();
+	
+	cout << "Student Last Name: ";
+	cin.get(s.last, sizeof(s.last));
+	cin.get();
+
+	cout << "Student ID: ";
+	cin >> s.id;
+
+	cout << "Student GPA: ";
+	cin >> s.gpa;
+
+	cin.get();
+
+	// this will add a new entry to my vector, and then adds the new struct to the end
+	myVector.push_back(s);
 }
 
 // function to print out all the students stored
-void print(const vector<int>&, struct Student *bob) {
-
-	cout << bob.first << " " << bob.last << "  ID: " << bob.id << " GPA: " << bob.gpa << endl;
+void print(const vector<Student>& myVector) {
+	for (unsigned int i = 0; i < myVector.size(); i++) {
+		cout << myVector[i].first << " " << myVector[i].last << ", " << myVector[i].id << ", "
+		     << fixed << setprecision(2) << myVector[i].gpa << endl;
+	}
 }
 
 // function to delete a student from the list
-void erase(struct Student *bob) {
-
+void erase(vector<Student>& myVector) {
+	// check out vector begin and vector erase
+	// need to use an iterator to erase
+	// just need to erase, not empty, because not using pointers
+	// it->first
 }
