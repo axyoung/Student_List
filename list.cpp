@@ -23,7 +23,7 @@ struct Student {
 };
 
 void add(vector<Student>&);
-void print(const vector<Student>&);
+void print(vector<Student>&);
 void erase(vector<Student>&);
 
 int main() {
@@ -81,7 +81,7 @@ void add(vector<Student>& myVector) {
 
 	cout << "Student ID: ";
 	cin >> s.id;
-
+	// if user types in a long number here it breaks the code?
 	cout << "Student GPA: ";
 	cin >> s.gpa;
 
@@ -92,12 +92,19 @@ void add(vector<Student>& myVector) {
 }
 
 // function to print out all the students stored
-void print(const vector<Student>& myVector) {
+void print(vector<Student>& myVector) {
 	// use an unsigned int because it is a vector
+	/*
 	for (unsigned int i = 0; i < myVector.size(); i++) {
 		// use fixed and set precision for 2 decimal places for gpa
 		cout << myVector[i].first << " " << myVector[i].last << ", " << myVector[i].id << ", "
 		     << fixed << setprecision(2) << myVector[i].gpa << endl;
+	}
+	*/
+	// use iterators to avoid overflow
+	for (std::vector<Student>::iterator it = myVector.begin(); it != myVector.end(); ++it) {
+		cout << it -> first << " " << it -> last << ", " << it -> id << ", "
+		     << fixed << setprecision(2) << it -> gpa << endl;
 	}
 }
 
@@ -107,13 +114,17 @@ void erase(vector<Student>& myVector) {
 	cout << "Student ID to delete: ";
 	cin >> deleteID;
 	cin.get();
+	/*
 	for (unsigned int i = 0; i < myVector.size(); i++) {
 		if (deleteID == myVector[i].id) {
 			myVector.erase(myVector.begin() + i);
 		}
 	}
-	// check out vector begin and vector erase
-	// need to use an iterator to erase
-	// just need to erase, not empty, because not using pointers
-	// it->first
+	*/
+	for (std::vector<Student>::iterator it = myVector.begin(); it != myVector.end(); ++it) {
+		if (deleteID == it -> id) {	
+			cout << "hi" << endl;
+			// figure out how to erase without segmentation errors
+		}
+	}
 }
