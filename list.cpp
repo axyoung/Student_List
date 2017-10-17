@@ -5,7 +5,7 @@
  * 10/11/2017
  */
 
-// It is done, but need get it to use iterators instead for printing and erasing
+// use vector for myVector, cstring for strcmp, and iomanip for setPrecision
 
 #include <iostream>
 #include <vector>
@@ -16,6 +16,7 @@ using namespace std;
 
 // stuct that stores each student
 struct Student {
+	// name can hold 20 characters
 	char first[21];
 	char last[21];
 	int id;
@@ -68,6 +69,7 @@ int main() {
 // function to add an entry for a student
 void add(vector<Student>& myVector) {
 	// empty local variable for student struct
+	// my dad gave me the idea to use a local variable to add to the vector
 	Student s = { 0 };
 
 	// get what they enter for names, id and gpa, then set the local struct to that value
@@ -102,6 +104,7 @@ void print(vector<Student>& myVector) {
 	}
 	*/
 	// use iterators to avoid overflow
+	// use fixed and setprecision for the gpa to have 2 digits
 	for (std::vector<Student>::iterator it = myVector.begin(); it != myVector.end(); ++it) {
 		cout << it -> first << " " << it -> last << ", " << it -> id << ", "
 		     << fixed << setprecision(2) << it -> gpa << endl;
@@ -114,6 +117,8 @@ void erase(vector<Student>& myVector) {
 	cout << "Student ID to delete: ";
 	cin >> deleteID;
 	cin.get();
+	
+	// the code below works, but if there is a too large of a value inside the struct it will mess up
 	/*
 	for (unsigned int i = 0; i < myVector.size(); i++) {
 		if (deleteID == myVector[i].id) {
@@ -121,10 +126,15 @@ void erase(vector<Student>& myVector) {
 		}
 	}
 	*/
+
+	// I use iterators instead to loop through and erase a struct from my vector
 	for (std::vector<Student>::iterator it = myVector.begin(); it != myVector.end(); ++it) {
-		if (deleteID == it -> id) {	
-			cout << "hi" << endl;
-			// figure out how to erase without segmentation errors
+		// cout << it -> id << endl; for debugging
+		if (deleteID == (it -> id)) {
+			// cout << "hi" << endl; for debugging
+			myVector.erase(it);
+			// from Galbraith - need it so that after I erase the struct, it doesn't mess up for loop
+			break;
 		}
 	}
 }
